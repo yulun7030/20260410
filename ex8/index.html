@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+  <input v-model="color" placeholder="輸入顏色，如 red、blue" />
+  
+  <!-- 動態改變樣式 -->
+  <p :style="{ color: color }">這段文字的顏色會改變</p>
+  
+  <!-- 動態切換 CSS class -->
+  <p :class="{ big: isBig }">文字大小</p>
+  <button @click="isBig = !isBig">切換大小</button>
+</div>
+<!-- 引入 Vue -->
+  <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+<style>
+  .big { font-size: 32px; font-weight: bold; }
+</style>
+
+<script>
+Vue.createApp({
+  data() {
+    return {
+      color: "black",
+      isBig: false
+    }
+  }
+}).mount("#app")
+</script>
+
+</body>
+</html>
