@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue.js 練習專案目錄</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            /* 水族館深藍漸層背景 */
+            background: linear-gradient(135deg, #02111D 0%, #03396C 50%, #005B96 100%);
+            color: #e0f7fa;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        header {
+            /* 玻璃擬物化效果 */
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 15px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            z-index: 10;
+        }
+        h1 {
+            margin: 0;
+            font-size: 24px;
+            color: #80deea;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        .student-info {
+            font-size: 18px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 8px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .main-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .sidebar {
+            width: 300px;
+            background: rgba(0, 30, 60, 0.6);
+            backdrop-filter: blur(5px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            overflow-y: auto;
+            padding: 20px;
+        }
+        ul { list-style-type: none; padding: 0; margin: 0; }
+        li { margin-bottom: 10px; }
+        a {
+            text-decoration: none;
+            color: #b3e5fc;
+            font-size: 16px;
+            display: block;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+        a:hover, a:focus {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            border-color: #4dd0e1;
+            box-shadow: 0 0 10px rgba(77, 208, 225, 0.5);
+            /* 加入微微傾斜的俏皮 Q 彈效果 */
+            transform: translateX(5px) rotate(-1deg) scale(1.02);
+        }
+        .content-area {
+            flex: 1;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        iframe {
+            flex: 1;
+            width: 100%;
+            border: none;
+            border-radius: 12px;
+            background: #ffffff;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        /* 氣泡動畫效果 */
+        .bubble {
+            position: absolute;
+            bottom: -20px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            animation: rise 10s infinite ease-in;
+            pointer-events: none;
+            z-index: 1;
+        }
+        @keyframes rise {
+            0% { transform: translateY(0) scale(1); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+        }
+        /* 可愛游動生物動畫 */
+        .fish {
+            position: absolute;
+            user-select: none;
+            pointer-events: none; /* 讓滑鼠點擊穿透，不影響操作 */
+            z-index: 1;
+            filter: drop-shadow(0 4px 4px rgba(0,0,0,0.3));
+        }
+        .fish-right { animation: swimRight linear infinite; }
+        .fish-left { animation: swimLeft linear infinite; }
+        
+        /* 向右游（Emoji 預設向左，所以用 scaleX(-1) 翻轉） */
+        @keyframes swimRight {
+            0% { left: -10%; transform: scaleX(-1) translateY(0); }
+            25% { left: 20%; transform: scaleX(-1) translateY(-15px); }
+            50% { left: 50%; transform: scaleX(-1) translateY(0); }
+            75% { left: 80%; transform: scaleX(-1) translateY(15px); }
+            100% { left: 110%; transform: scaleX(-1) translateY(0); }
+        }
+        /* 向左游 */
+        @keyframes swimLeft {
+            0% { left: 110%; transform: scaleX(1) translateY(0); }
+            25% { left: 80%; transform: scaleX(1) translateY(-15px); }
+            50% { left: 50%; transform: scaleX(1) translateY(0); }
+            75% { left: 20%; transform: scaleX(1) translateY(15px); }
+            100% { left: -10%; transform: scaleX(1) translateY(0); }
+        }
+        .seaweed-footer {
+            text-align: center;
+            font-size: 28px;
+            margin-top: 20px;
+            letter-spacing: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 水泡裝飾 -->
+    <div class="bubble" style="left: 10%; width: 20px; height: 20px; animation-duration: 8s;"></div>
+    <div class="bubble" style="left: 30%; width: 15px; height: 15px; animation-duration: 12s; animation-delay: 2s;"></div>
+    <div class="bubble" style="left: 50%; width: 25px; height: 25px; animation-duration: 10s; animation-delay: 4s;"></div>
+    <div class="bubble" style="left: 70%; width: 10px; height: 10px; animation-duration: 9s; animation-delay: 1s;"></div>
+    <div class="bubble" style="left: 90%; width: 30px; height: 30px; animation-duration: 11s; animation-delay: 3s;"></div>
+
+    <!-- 游動的海洋生物 -->
+    <div class="fish fish-right" style="top: 15%; animation-duration: 22s; font-size: 40px;">🐟</div>
+    <div class="fish fish-left" style="top: 35%; animation-duration: 28s; font-size: 50px;">🐢</div>
+    <div class="fish fish-right" style="top: 65%; animation-duration: 18s; font-size: 35px;">🐡</div>
+    <div class="fish fish-left" style="top: 85%; animation-duration: 35s; font-size: 45px;">🦀</div>
+    <div class="fish fish-right" style="top: 8%; animation-duration: 40s; font-size: 30px;">🐙</div>
+
+    <header>
+        <h1>🐠✨ Vue.js 奇幻水族館目錄 414737089</h1>
+        <!-- 在此修改您的學號 -->
+        <div class="414737089 ">🎓 學號：<span>414737089</span></div>
+    </header>
+
+    <div class="main-container">
+        <nav class="sidebar">
+            <ul>
+                <!-- 利用 target="contentFrame" 指向 iframe 的 name 屬性 -->
+                <li><a href="ex1/index.html" target="contentFrame">🌱 練習 1：我的第一個 Vue 頁面</a></li>
+                <li><a href="ex2/index.html" target="contentFrame">🏷️ 練習 2：資料綁定 (姓名與年齡)</a></li>
+                <li><a href="ex3/index.html" target="contentFrame">🖱️ 練習 3：事件處理 (按鈕點擊)</a></li>
+                <li><a href="ex4/index.html" target="contentFrame">🔄 練習 4：表單雙向綁定 (v-model)</a></li>
+                <li><a href="ex5/index.html" target="contentFrame">👀 練習 5：條件渲染 (v-if/else)</a></li>
+                <li><a href="ex6/index.html" target="contentFrame">📋 練習 6：清單渲染 (v-for)</a></li>
+                <li><a href="ex7/index.html" target="contentFrame">🧮 練習 7：計算屬性 (computed)</a></li>
+                <li><a href="ex8/index.html" target="contentFrame">🎨 練習 8：動態樣式 (Style & Class)</a></li>
+                <li><a href="ex9/index.html" target="contentFrame">✅ 練習 9：綜合練習 (待辦事項)</a></li>
+            </ul>
+            <div class="seaweed-footer">🌿🐚🦐🌿</div>
+        </nav>
+        
+        <main class="content-area">
+            <!-- 內容顯示區域，預設載入 ex1 -->
+            <iframe name="contentFrame" src="ex1/index.html" title="內容顯示區"></iframe>
+        </main>
+    </div>
+</body>
+</html>
